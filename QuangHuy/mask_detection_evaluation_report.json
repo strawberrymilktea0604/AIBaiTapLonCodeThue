@@ -1,0 +1,60 @@
+{
+  "timestamp": "2025-06-13T09:40:33.896929",
+  "evaluator": "strawberrymilktea0604",
+  "model_type": "SSD-MobileNetV2",
+  "test_set_size": 830,
+  "overall_accuracy": 0.7674698795180723,
+  "class_metrics": {
+    "precision": [
+      0.36363636363636365,
+      0.9716024340770791,
+      0.4944649446494465
+    ],
+    "recall": [
+      0.6,
+      0.740340030911901,
+      0.9370629370629371
+    ],
+    "f1": [
+      0.4528301886792453,
+      0.8403508771929824,
+      0.6473429951690821
+    ],
+    "support": [
+      40,
+      647,
+      143
+    ]
+  },
+  "confidence_stats": {
+    "avg": 0.6121955513954163,
+    "min": 0.33607983589172363,
+    "max": 0.9914377331733704,
+    "std": 0.16309547424316406
+  },
+  "summary": {
+    "overall_accuracy": 0.7674698795180723,
+    "rating": "\u274c C\u1ea6N C\u1ea2I THI\u1ec6N",
+    "best_class": "without_mask",
+    "worst_class": "mask_weared_incorrect",
+    "deployment_ready": false,
+    "problems": [
+      "\u0110\u1ed9 tin c\u1eady prediction th\u1ea5p",
+      "Hi\u1ec7u su\u1ea5t kh\u00f4ng \u0111\u1ed3ng \u0111\u1ec1u gi\u1eefa c\u00e1c class",
+      "Class 'mask_weared_incorrect' c\u00f3 hi\u1ec7u su\u1ea5t th\u1ea5p",
+      "Nhi\u1ec1u predictions c\u00f3 \u0111\u1ed9 tin c\u1eady th\u1ea5p"
+    ],
+    "recommendations": [
+      "Thu th\u1eadp th\u00eam d\u1eef li\u1ec7u training",
+      "Th\u1eed c\u00e1c architecture model kh\u00e1c",
+      "Fine-tuning hyperparameters",
+      "Data augmentation cho class 'mask_weared_incorrect'",
+      "C\u00e2n b\u1eb1ng dataset v\u1edbi class weights",
+      "Ensemble methods \u0111\u1ec3 t\u0103ng \u0111\u1ed9 tin c\u1eady",
+      "Temperature scaling cho calibration",
+      "Thu th\u1eadp d\u1eef li\u1ec7u \u0111a d\u1ea1ng v\u1ec1 g\u00f3c ch\u1ee5p v\u00e0 \u0111i\u1ec1u ki\u1ec7n \u00e1nh s\u00e1ng",
+      "T\u0103ng c\u01b0\u1eddng data v\u1edbi c\u00e1c lo\u1ea1i kh\u1ea9u trang kh\u00e1c nhau",
+      "Test v\u1edbi real-world deployment scenarios"
+    ]
+  }
+}
