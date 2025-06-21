@@ -1,141 +1,102 @@
 """
-GDELT Hot Topics Forecaster - Streamlit Cloud Deployment
-User: tungnguyen
-Current Time: 2025-06-21 09:26:56 UTC
+GDELT Hot Topics Forecaster - Optimized Version
+User: strawberrymilktea0604
+Current Time: 2025-06-21 10:50:55 UTC
+Location: TungNguyen/demo/app.py
 """
 
+# Import từ file optimized
 import streamlit as st
 import sys
-import os
 from pathlib import Path
 
-# Add subdirectory to path if needed
+# Add current directory to path
 current_dir = Path(__file__).parent
 sys.path.append(str(current_dir))
 
-# Import from subdirectory if needed
-try:
-    # Try to import from TungNguyen/web demo/ if that's where your main code is
-    sys.path.append(str(current_dir / "TungNguyen" / "web demo"))
-    from complete_gdelt_forecaster_app import main as gdelt_main
-    HAS_MAIN_APP = True
-except ImportError:
-    HAS_MAIN_APP = False
-
-# Page configuration
+# Page config
 st.set_page_config(
-    page_title="🔥 GDELT Hot Topics Forecaster",
+    page_title="🔥 GDELT Hot Topics Forecaster - Optimized",
     page_icon="🔥",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-def deployment_info():
-    """Show deployment information"""
-    st.markdown(f"""
-    <div style="background: linear-gradient(90deg, #4CAF50, #45A049); color: white; padding: 1rem; border-radius: 8px; text-align: center; margin-bottom: 2rem;">
-        🚀 <strong>GDELT Hot Topics Forecaster</strong><br>
-        👤 <strong>User:</strong> tungnguyen | 
-        🕐 <strong>Deployed:</strong> 2025-06-21 09:26:56 UTC<br>
-        ☁️ <strong>Platform:</strong> Streamlit Cloud | 
-        📱 <strong>URL:</strong> timeseries123.streamlit.app
-    </div>
-    """, unsafe_allow_html=True)
+# Import optimized functions
+from optimized_file_upload import (
+    process_large_zip_chunked,
+    smart_data_sampling,
+    get_memory_usage,
+    MemoryManager
+)
 
 def main():
-    """Main application entry point"""
+    """Main optimized application"""
     
-    # Show deployment info
-    deployment_info()
+    st.title("🔥 GDELT Hot Topics Forecaster - Optimized")
     
-    if HAS_MAIN_APP:
-        # Run the main GDELT application
-        try:
-            gdelt_main()
-        except Exception as e:
-            st.error(f"❌ Error loading main app: {e}")
-            show_fallback_app()
-    else:
-        st.warning("⚠️ Main application not found, showing fallback interface")
-        show_fallback_app()
-
-def show_fallback_app():
-    """Fallback application if main app fails to load"""
+    # User info
+    st.markdown(f"""
+    <div style="background: linear-gradient(90deg, #4CAF50, #45A049); color: white; padding: 1rem; border-radius: 8px; text-align: center; margin-bottom: 2rem;">
+        👤 <strong>User:</strong> strawberrymilktea0604 | 
+        🕐 <strong>Current Time:</strong> 2025-06-21 10:50:55 UTC | 
+        📍 <strong>Location:</strong> TungNguyen/demo/app.py | 
+        💾 <strong>Mode:</strong> Memory Optimized
+    </div>
+    """, unsafe_allow_html=True)
     
-    st.title("🔥 GDELT Hot Topics Forecaster")
-    
-    st.markdown("### 🔧 Deployment Status")
-    
-    # Check current directory structure
-    current_dir = Path(".")
-    
-    st.markdown("#### 📁 Directory Structure:")
-    
-    def show_directory_tree(path, prefix="", max_depth=3, current_depth=0):
-        if current_depth >= max_depth:
-            return
+    # Memory monitoring
+    with st.sidebar:
+        st.markdown("## 📊 System Status")
+        memory_usage = get_memory_usage()
+        st.metric("💾 Memory Usage", f"{memory_usage:.1f} MB")
         
-        try:
-            items = sorted(path.iterdir())
-            for i, item in enumerate(items):
-                is_last = i == len(items) - 1
-                current_prefix = "└── " if is_last else "├── "
+        if memory_usage > 500:
+            st.warning("⚠️ High memory usage")
+        else:
+            st.success("✅ Memory usage OK")
+    
+    # Optimized file upload section
+    st.markdown("### 📁 Optimized Large File Upload")
+    
+    uploaded_file = st.file_uploader(
+        "Upload GDELT ZIP file (up to 2GB)",
+        type=['zip'],
+        help="Large files will be processed in chunks to prevent crashes"
+    )
+    
+    if uploaded_file is not None:
+        file_size_mb = len(uploaded_file.getvalue()) / (1024 * 1024)
+        
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.metric("📁 File Size", f"{file_size_mb:.1f} MB")
+        with col2:
+            processing_mode = "Chunked" if file_size_mb > 200 else "Standard"
+            st.metric("🚀 Mode", processing_mode)
+        with col3:
+            est_time = max(1, int(file_size_mb / 20))
+            st.metric("⏱️ Est. Time", f"{est_time} min")
+        
+        if st.button("🚀 Process File (Optimized)", type="primary"):
+            with st.spinner("Processing large file... Please wait..."):
                 
-                if item.is_dir():
-                    st.text(f"{prefix}{current_prefix}📁 {item.name}/")
-                    if current_depth < max_depth - 1:
-                        next_prefix = prefix + ("    " if is_last else "│   ")
-                        show_directory_tree(item, next_prefix, max_depth, current_depth + 1)
-                else:
-                    st.text(f"{prefix}{current_prefix}📄 {item.name}")
-        except PermissionError:
-            st.text(f"{prefix}❌ Permission denied")
-    
-    show_directory_tree(current_dir)
-    
-    st.markdown("### 📦 Dependencies Status")
-    
-    # Check if required packages are available
-    packages_to_check = [
-        ("streamlit", "Streamlit framework"),
-        ("pandas", "Data manipulation"),
-        ("numpy", "Numerical computing"),
-        ("plotly", "Interactive visualizations"),
-        ("sklearn", "Machine learning"),
-        ("xgboost", "Gradient boosting"),
-        ("prophet", "Time series forecasting"),
-    ]
-    
-    for package, description in packages_to_check:
-        try:
-            __import__(package)
-            st.success(f"✅ {package}: {description}")
-        except ImportError:
-            st.error(f"❌ {package}: {description} - Not installed")
-    
-    st.markdown("### 🚀 Quick Demo")
-    
-    if st.button("🎭 Run Demo Mode"):
-        st.balloons()
-        st.success("🎉 Demo mode would run here!")
-        
-        # Simple demo visualization
-        import numpy as np
-        import pandas as pd
-        
-        # Generate sample data
-        dates = pd.date_range('2024-04-01', '2024-06-10', freq='D')
-        topic_data = {
-            'Date': dates,
-            'Topic_1_Security': np.random.uniform(0.1, 0.3, len(dates)),
-            'Topic_2_Economy': np.random.uniform(0.08, 0.25, len(dates)),
-            'Topic_3_Politics': np.random.uniform(0.12, 0.28, len(dates))
-        }
-        
-        df = pd.DataFrame(topic_data)
-        
-        st.line_chart(df.set_index('Date'))
-        st.success("✅ Sample hot topics trend visualization")
+                # Process with optimized function
+                processed_df = process_large_zip_chunked(uploaded_file)
+                
+                if processed_df is not None:
+                    # Smart sampling if too large
+                    if len(processed_df) > 50000:
+                        processed_df = smart_data_sampling(processed_df, 50000)
+                    
+                    st.session_state['processed_data'] = processed_df
+                    st.success(f"✅ Successfully processed {len(processed_df):,} rows!")
+                    
+                    # Show preview
+                    st.dataframe(processed_df.head(), use_container_width=True)
+                    
+                    # Continue with your existing analysis code here...
+                    st.info("🔄 Ready for topic analysis and forecasting!")
 
 if __name__ == "__main__":
     main()
